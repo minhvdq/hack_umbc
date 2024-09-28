@@ -19,6 +19,7 @@ export default function AutocompleteComponent()
     const [location, setLocation] = useState(null);
 
 
+
     const loadAutoc = (autoC)=>{
         setAutocomplete(autoC)
     }
