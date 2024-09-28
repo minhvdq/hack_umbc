@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { GoogleMap, LoadScript, Autocomplete,Marker } from '@react-google-maps/api';
+import FormSupplier from './FormSupplier';
 
 
 
@@ -17,6 +18,7 @@ export default function AutocompleteComponent()
 {
     const [autocomplete, setAutocomplete] = useState(null)
     const [location, setLocation] = useState(null);
+    const [isSupplier, setIsSupplier] = useState(true);
 
 
 
@@ -39,7 +41,8 @@ export default function AutocompleteComponent()
     }
 
     return (
-        <LoadScript googleMapsApiKey="AIzaSyCTy-RYvGUcdShnzlESTHfD19nbobBeBRI" libraries={['places']}>
+        <div>
+        {!isSupplier && <LoadScript googleMapsApiKey="AIzaSyCTy-RYvGUcdShnzlESTHfD19nbobBeBRI" libraries={['places']}>
             <Autocomplete onLoad={loadAutoc} onPlaceChanged={onLocationChanged}>
                 <input type="text" placeholder='Enter your address' style={{width:'100%',height:'40px',marginBottom:"13%"}}/>    
             </Autocomplete>
@@ -51,7 +54,11 @@ export default function AutocompleteComponent()
             {/* Add a marker at the center location */}
             <Marker position={center} />
             </GoogleMap>
-        </LoadScript>
+        </LoadScript>}
+
+        {isSupplier && <FormSupplier/>}
+        </div>
     )
+    
 }
 
