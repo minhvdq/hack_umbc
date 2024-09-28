@@ -11,7 +11,10 @@
   },
   "dependencies": {
     "@react-google-maps/api": "^2.19.3",
+<<<<<<< HEAD
     "frontend": "file:",
+=======
+>>>>>>> f986b6c49dd0b22b8f59a241c934b16bd0e78f16
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },

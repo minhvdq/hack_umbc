@@ -7,33 +7,12 @@ const eventSchema = new mongoose.Schema({
         required: true,
     },
     
-    firstAddress:{
+    address:{
         type: String,
-        minLength: 6,
-        required: true,
-    },
-    
-    secondAddress: {
-        type: String,
-    },
-
-    city:{
-        type: String,
-        required: true,
-        minLength: 6
-    },
-
-    state: {
-        type: String,
-        required: true,
-    },
-
-    postalCode:{
-        type: Number,
         required: true
     },
 
-    expriation:{
+    expiration:{
         type: Number,
         required: true
     },
@@ -42,7 +21,12 @@ const eventSchema = new mongoose.Schema({
         {
             type: String,
         }
-    ]
+    ],
+
+    user: {
+        type: mongoose.Types.ObjectId,
+        ref: 'User'
+    }
 })
 eventSchema.plugin(uniqueValidator)
 
