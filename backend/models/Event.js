@@ -7,29 +7,8 @@ const eventSchema = new mongoose.Schema({
         required: true,
     },
     
-    firstAddress:{
+    address:{
         type: String,
-        minLength: 6,
-        required: true,
-    },
-    
-    secondAddress: {
-        type: String,
-    },
-
-    city:{
-        type: String,
-        required: true,
-        minLength: 6
-    },
-
-    state: {
-        type: String,
-        required: true,
-    },
-
-    postalCode:{
-        type: Number,
         required: true
     },
 
