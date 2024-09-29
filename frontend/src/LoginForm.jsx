@@ -1,40 +1,94 @@
-
+import { Button, Form, Input, Typography } from 'antd';
 
 const LoginForm = ({togglePage, handleLogin, email, password, handleEmail, handlePassword, error })=> {
-  return(
-      <div>
-        <div>
-          <div>
-            <p style={{fontFamily: "Courier New, Courier, monospace", fontWeight: "600", textAlign: "center"}}>Welcome back!</p></div>
-            <div >
-            <button type="button" onClick={togglePage} style={{padding: "0"}}>Signup</button><div className="p-1" >Don't have an account?</div>
-            </div>
-          <form onSubmit={handleLogin}>
-            <div>
-              <label htmlFor="exampleFormControlInput1">Email address</label>
-              <div>
-                <input type="email" id="exampleFormControlInput1" placeholder="name@example.com" value={email} onChange={handleEmail} required />
-              </div>
-            </div>
-            <div>
-              <div>
-                <label htmlFor="inputPassword">Password</label>
-                <div>
-                  <input type="password" id="inputPassword" aria-describedby="passwordHelpInline" placeholder='Your Password' value={password} onChange={handlePassword} required />
-                </div>
-              </div>
-            </div>
-            <div>
-              <button type='submit'> login </button>
-              <div>
-                  <div>
-                    {error}
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
+  const { Title } = Typography;
+
+  const onFinish = (values) => {
+    console.log('Success:', values);
+  };
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  };
+
+  return (
+    <Form
+      name="basic"
+      labelCol={{
+        span: 8,
+      }}
+      wrapperCol={{
+        span: 16,
+      }}
+      style={{
+        maxWidth: 600,
+      }}
+      initialValues={{
+        remember: true,
+      }}
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
+      autoComplete="off"
+    >
+      <Form.Item>
+        <Title>
+          Welcome back!
+        </Title>
+      </Form.Item>
+
+      <Form.Item
+        label="Email"
+        name="email"
+        id="inputEmail"
+        onChange={handleEmail}
+        value={email}
+        rules={[
+          {
+            required: true,
+            message: 'Please input your email!',
+          },
+        ]}
+      >
+        <Input placeholder="name@example.com" />
+      </Form.Item>
+
+      <Form.Item
+        label="Password"
+        name="password"
+        id="inputPassword"
+        onChange={handlePassword}
+        value={password}
+        rules={[
+          {
+            required: true,
+            message: 'Please input your password!',
+          },
+        ]}
+      >
+        <Input.Password placeholder="Password@123" />
+      </Form.Item>
+
+      <Form.Item
+        wrapperCol={{
+          offset: 8,
+          span: 16,
+        }}
+      >
+        <Button type="link" htmlType="submit" onClick={togglePage}>
+          Don't have an account?
+        </Button>
+      </Form.Item>
+
+      <Form.Item
+        wrapperCol={{
+          offset: 8,
+          span: 16,
+        }}
+      >
+        <Button type="primary" htmlType="submit" onClick={handleLogin}>
+          Sign up
+        </Button>
+      </Form.Item>
+    </Form>
   )
 }
 

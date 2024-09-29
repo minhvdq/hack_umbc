@@ -2,16 +2,16 @@ import { useState } from 'react'
 import userService from './services/userServices'
 import { Button, Form, Input, Typography } from 'antd';
 
-const { Title } = Typography;
-
-const onFinish = (values) => {
-  console.log('Success:', values);
-};
-const onFinishFailed = (errorInfo) => {
-  console.log('Failed:', errorInfo);
-};
-
 const SignupForm = ({ togglePage }) => {
+  const { Title } = Typography;
+
+  const onFinish = (values) => {
+    console.log('Success:', values);
+  };
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  };
+
   const [error, setError] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -163,7 +163,7 @@ const SignupForm = ({ togglePage }) => {
         }}
       >
         <Button type="primary" htmlType="submit" onClick={(e) => handleSignup(e.values)}>
-          Submit
+          Sign up
         </Button>
       </Form.Item>
     </Form>
