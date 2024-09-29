@@ -85,6 +85,7 @@ const SignupForm = ({ togglePage }) => {
         name="name"
         id="inputName"
         value={name}
+        onChange={(e) =>setName(e.target.value)}
         rules={[
           {
             required: true,
@@ -99,6 +100,8 @@ const SignupForm = ({ togglePage }) => {
         name="phoneNumber"
         id="inputPhoneNumber"
         value={phoneNumber}
+        onChange={(e) =>setPhoneNumber(e.target.value)}
+
         rules={[
           {
             required: true,
@@ -113,6 +116,7 @@ const SignupForm = ({ togglePage }) => {
         name="email"
         id="inputEmail"
         value={email}
+        onChange={(e) =>setEmail(e.target.value)}
         rules={[
           {
             required: true,
@@ -128,6 +132,7 @@ const SignupForm = ({ togglePage }) => {
         name="password"
         id="inputPassword"
         value={password}
+        onChange={(e) =>setPassword(e.target.value)}
         rules={[
           {
             required: true,
@@ -143,6 +148,8 @@ const SignupForm = ({ togglePage }) => {
         name="confirmPassword"
         id="inputConfirmPassword"
         value={confirmPassword}
+        onChange={(e) =>setConfirmPassword(e.target.value)}
+
         rules={[
           {
             required: true,
