@@ -7,6 +7,7 @@ const SignupForm = ({ togglePage }) => {
 
   const onFinish = (values) => {
     console.log('Success:', values);
+    handleSignup(values);
   };
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
@@ -15,7 +16,7 @@ const SignupForm = ({ togglePage }) => {
   const [error, setError] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [repPassword, setRepPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
   const [name, setName] = useState('')
 
@@ -25,7 +26,7 @@ const SignupForm = ({ togglePage }) => {
   }
   const handleSignup = async (values) => {
     console.log(values);
-    if (values.password !== values.repPassword) {
+    if (values.password !== values.confirmPassword) {
       cusThrowError("Confirming password unmatches!")
       return
     }
@@ -33,17 +34,19 @@ const SignupForm = ({ togglePage }) => {
     setPhoneNumber(values.phoneNumber)
     setName(values.name)
     setPassword(values.password)
+    setConfirmPassword(values.confirmPassword)
 
     const submitUser = {
       email, password, name, phoneNumber
     }
+    console.log("SubmitUser: " + JSON.stringify(submitUser))
     try {
       const newUser = await userService.signup(submitUser)
 
       console.log('new User is ' + JSON.stringify(newUser))
       setEmail('')
       setPassword('')
-      setRepPassword('')
+      setConfirmPassword('')
       setPhoneNumber('')
       setName('')
       togglePage()
@@ -81,6 +84,7 @@ const SignupForm = ({ togglePage }) => {
         label="Name"
         name="name"
         id="inputName"
+        value={name}
         rules={[
           {
             required: true,
@@ -94,6 +98,7 @@ const SignupForm = ({ togglePage }) => {
         label="Phone Number"
         name="phoneNumber"
         id="inputPhoneNumber"
+        value={phoneNumber}
         rules={[
           {
             required: true,
@@ -107,6 +112,7 @@ const SignupForm = ({ togglePage }) => {
         label="Email"
         name="email"
         id="inputEmail"
+        value={email}
         rules={[
           {
             required: true,
@@ -121,6 +127,7 @@ const SignupForm = ({ togglePage }) => {
         label="Password"
         name="password"
         id="inputPassword"
+        value={password}
         rules={[
           {
             required: true,
@@ -135,6 +142,7 @@ const SignupForm = ({ togglePage }) => {
         label="Confirm Password"
         name="confirmPassword"
         id="inputConfirmPassword"
+        value={confirmPassword}
         rules={[
           {
             required: true,
@@ -162,7 +170,7 @@ const SignupForm = ({ togglePage }) => {
           span: 16,
         }}
       >
-        <Button type="primary" htmlType="submit" onClick={(e) => handleSignup(e.values)}>
+        <Button type="primary" htmlType="submit">
           Sign up
         </Button>
       </Form.Item>

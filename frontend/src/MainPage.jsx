@@ -1,8 +1,9 @@
 import React from 'react';
 import { useNavigate,Outlet } from "react-router-dom";
-
+import { Typography } from "antd";
 
 export default function MainPage() {
+    const { Title } = Typography;
     const navigate = useNavigate();
     const containerStyle = {
         height: '100vh',
@@ -10,13 +11,6 @@ export default function MainPage() {
         padding: '20px',
         borderRadius: '8px',
         boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
-    };
-
-    const labelStyle = {
-        marginBottom: '10px',
-        fontSize: '1.2em',
-        fontWeight: 'bold',
-        color: '#333',
     };
 
     const selectStyle = {
@@ -56,7 +50,7 @@ export default function MainPage() {
     return (
         <div style={containerStyle}>
             <form onSubmit={handleSubmit}>
-                <label style={labelStyle}>Who are you?</label>
+                <Title>Who are you?</Title>
                 <select name="userType" style={selectStyle}>
                     <option value="User">People need support</option>
                     <option value="Supplier">Supplier</option>

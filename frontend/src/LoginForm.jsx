@@ -85,7 +85,7 @@ const LoginForm = ({togglePage, handleLogin, email, password, handleEmail, handl
         }}
       >
         <Button type="primary" htmlType="submit" onClick={handleLogin}>
-          Sign up
+          Sign in
         </Button>
       </Form.Item>
     </Form>
