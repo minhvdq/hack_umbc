@@ -5,7 +5,7 @@ const Event = require('../models/Event')
 const checkIntersect = (resources_1, resources_2) => {
     for( let r of resources_1 ) {
         for( let re of resources_2 ){
-            if( r === re ){
+            if( r.toLowerCase() === re.toLowerCase() ){
                 return true
             }
         }

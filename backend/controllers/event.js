@@ -13,6 +13,17 @@ eventRouter.get('/:id', async(request, response) => {
     response.status(200).json(event)
 })
 
+eventRouter.post('/user', async ( request, response ) => {
+    const body = request.body
+    const events = body.events
+    const retEvents = []
+    for( let eventId of events ){
+        const event = await Event.findById(eventId)
+        retEvents.push(event)
+    }
+    response.status(200).json(retEvents)
+})
+
 eventRouter.post('/', async(request, response) => {
     const body = request.body
     let supplierId = body.id
