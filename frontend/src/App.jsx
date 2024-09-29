@@ -19,26 +19,12 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 function App() {
   const [autocomplete, setAutocomplete] = useState(null);
   return (
-<<<<<<< Updated upstream
-    <LoadScript googleMapsApiKey="AIzaSyCTy-RYvGUcdShnzlESTHfD19nbobBeBRI">
-      <GoogleMap
-        mapContainerStyle={containerStyle}
-        center={center}
-        zoom={5}
-      >
-        {/* Add a marker at the center location */}
-        <Marker position={center} />
-      </GoogleMap>
-    </LoadScript>
-=======
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<AutocompleteComponent/>}>
-
         </Route>
       </Routes>
     </BrowserRouter>
->>>>>>> Stashed changes
   );
 }
 
