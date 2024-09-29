@@ -55,8 +55,7 @@ function App() {
     }
   }
 
-  const handleLogout = (event) => {
-    event.preventDefault()
+  const handleLogout = () => {
     window.localStorage.clear()
     setCurUser(null)
     setEmail('')
@@ -81,7 +80,7 @@ function App() {
   const mainPage = () => {
     return(
       <div>
-        <MainPageSupplier events= {events} handleLogout={handleLogout} />
+        <MainPageSupplier events={events} handleLogout={handleLogout} />
       </div>
     )
   }
