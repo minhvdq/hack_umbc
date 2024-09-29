@@ -9,7 +9,7 @@ import {
     Input,
 } from 'antd';
 
-const FormDisabledDemo = () => {
+export default function FormDisabledDemo() {
     const [autocomplete, setAutocomplete] = useState(null);
     const [location, setLocation] = useState(null); // State to hold location
     const [name, setName] = useState('');
@@ -107,4 +107,3 @@ const FormDisabledDemo = () => {
         </>
     );
 };
-export default () => <FormDisabledDemo />;
