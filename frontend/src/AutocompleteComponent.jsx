@@ -18,7 +18,8 @@ export default function AutocompleteComponent()
 {
     const [autocomplete, setAutocomplete] = useState(null)
     const [location, setLocation] = useState(null);
-    const [isSupplier, setIsSupplier] = useState(true);
+    const [isSupplier, setIsSupplier] = useState(false);
+    const [resource, setResources] = useState([])
 
 
 
@@ -39,6 +40,26 @@ export default function AutocompleteComponent()
             console.log("Can not find a place");
         }
     }
+    const handleCheckboxChange = (event) => {
+        const value = event.target.value;
+
+        // Check if the checkbox is checked or unchecked
+        if (event.target.checked) {
+            // Add the resource to the list
+            setResources((prevResources) => [...prevResources, value]);
+        } else {
+            // Remove the resource from the list
+            setResources((prevResources) => prevResources.filter((resource) => resource !== value));
+        }
+    };
+
+    const handleSubmit = async (event)=>{
+        event.preventDefault()
+        if(location !== null)
+        {
+
+        }
+    }
 
     return (
         <div>
@@ -46,14 +67,58 @@ export default function AutocompleteComponent()
             <Autocomplete onLoad={loadAutoc} onPlaceChanged={onLocationChanged}>
                 <input type="text" placeholder='Enter your address' style={{width:'100%',height:'40px',marginBottom:"13%"}}/>    
             </Autocomplete>
-            <GoogleMap
-                mapContainerStyle={containerStyle}
-                center={center}
-                zoom={12}
-            >
-            {/* Add a marker at the center location */}
-            <Marker position={center} />
-            </GoogleMap>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div style={{ flex: 2, marginRight:"10%" }}>
+                            <GoogleMap
+                                mapContainerStyle={containerStyle}
+                                center={location}
+                                zoom={17}
+                            >
+                               {location && <Marker position={location} />}
+                            </GoogleMap>
+                        </div>
+                        <div style={{ flex: 1,paddingLeft:'20px'  }}>
+                        <form style={{ width: '300px', padding: '20px', border: '1px solid #ddd', borderRadius: '8px' }}>
+                                <h3 style={{ marginBottom: '10px' }}>Resources Needed</h3>
+                                <p style={{ marginBottom: '20px' }}>Please select the resources you need:</p>
+
+                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                                    <label>
+                                        <input type="checkbox" name="Meal" value="Meal" onChange={handleCheckboxChange}/> Meal
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="Drink" value="Drink" onChange={handleCheckboxChange}/> Drink
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="Medical Supplies" value="Medical Supplies" onChange={handleCheckboxChange}/> Medical Supplies
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="Transportation" value="Transportation" onChange={handleCheckboxChange}/> Transportation
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="Shelter" value="Shelter" onChange={handleCheckboxChange}/> Shelter
+                                    </label>
+                                </div>
+
+                                <input
+                                    type="submit"
+                                    value="Submit"
+                                    style={{
+                                        marginTop: '20px',
+                                        padding: '10px 20px',
+                                        backgroundColor: '#4CAF50',
+                                        color: '#fff',
+                                        border: 'none',
+                                        borderRadius: '4px',
+                                        cursor: 'pointer',
+
+                                    }}
+                                    onChange={handleSubmit}
+                                />
+                            </form>
+                        </div>
+                    </div>
+        
         </LoadScript>}
 
         {isSupplier && <FormSupplier/>}
