@@ -55,7 +55,8 @@ function App() {
     }
   }
 
-  const handleLogout = () => {
+  const handleLogout = (event) => {
+    event.preventDefault()
     window.localStorage.clear()
     setCurUser(null)
     setEmail('')

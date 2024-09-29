@@ -1,9 +1,11 @@
 import { Button, Typography } from "antd";
 import { useNavigate } from "react-router-dom";
+import customStorage from "./services/customStorage";
 
-const MainPageSupplier = (events, handleLogout) => {
+const MainPageSupplier = ({events, handleLogout}) => {
     const { Title, Text } = Typography;
     const navigate = useNavigate();
+    
 
     return (
         <div>
@@ -16,18 +18,18 @@ const MainPageSupplier = (events, handleLogout) => {
             </div>
 
             <ul>
-                {events.events.map((event) => (
+                {events.map((event) => (
                     <li key={event.id}>
                         {event.name}
                         <Button onClick={navigate("/FormDisabledDemo")}>Edit</Button>
                     </li>
                 ))}
-                {events.events.length === 0 ? 
+                {events.length === 0 ? 
                     <Text>There is no event.</Text> : <></>}
             </ul>
 
             <div className="logout">
-                <Button type="primary" onClick={handleLogout}>Log Out</Button>
+                <Button type="primary" onClick={handleLogout}>logout</Button>
             </div>
         </div>
     );
