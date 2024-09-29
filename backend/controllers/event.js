@@ -2,6 +2,8 @@ const eventRouter = require('express').Router()
 const Event = require('../models/Event')
 const User = require('../models/User')
 const mongoose = require('mongoose')
+const axios = require('axios')
+const config = require('../utils/config')
 
 eventRouter.get('/', async(request, response) => {
     const events = await Event.find({})
@@ -41,10 +43,29 @@ eventRouter.post('/', async(request, response) => {
         response.status(400).json({error: "invalid supplier"})
         return
     }
+    const googleApiKey = config.GOOGLE_KEY
+    const destination = body.address
+
+    console.log(`lat is ${destination.lat} and lng is ${destination.lng}`)
+        const realDestination = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json`, {
+            params: {
+                latlng: `${destination.lat},${destination.lng}`,    
+                key: googleApiKey,
+            },
+        });
+        if (realDestination.data.status === 'OK') {
+            console.log("Real destination address is ", realDestination.data.results);
+        } else {
+            console.error("Geocoding API error: ", realDestination.data.status);
+            return res.status(400).json({ error: 'Invalid lat/lng or address not found' });
+        }
+        console.log("real destination address is ", realDestination.data.results[0]?.formatted_address)
+        const lastAddress = realDestination.data.results[0]?.formatted_address
+
 
     const event = new Event({
         name: body.name,
-        address: body.address,
+        address: lastAddress,
         expiration: body.expiration,
         resources: body.resources,
         user: supplier._id

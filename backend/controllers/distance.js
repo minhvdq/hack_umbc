@@ -1,9 +1,10 @@
 const distanceRouter = require('express').Router()
 const axios = require('axios');
+const config = require( '../utils/config')
 
 distanceRouter.post('/',async (req,res)=>{
     const { origin, destination } = req.body;
-    const googleApiKey = "AIzaSyCTy-RYvGUcdShnzlESTHfD19nbobBeBRI";
+    const googleApiKey = config.GOOGLE_KEY;
     
     try {
         console.log(`lat is ${destination.lat} and lng is ${destination.lng}`)
