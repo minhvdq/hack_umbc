@@ -5,8 +5,12 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MainPage from './MainPage';
 import FormSupplier from './FormSupplier';
+<<<<<<< Updated upstream
 import MainPageSupplier from './MainPageSupplier';
 import LoginForm from './LoginForm';
+=======
+import Supplier from './Supplier';
+>>>>>>> Stashed changes
 
 // Define the map container style
 // const containerStyle = {
@@ -26,8 +30,12 @@ function App() {
       <Routes>
         <Route path="/" element={<MainPage/>}>
         <Route path ="/Autocomplete" element={<AutocompleteComponent />}/>
+<<<<<<< Updated upstream
         <Route path = "/LoginForm" element={<LoginForm />}/>
         <Route path = "/MainPageSupplier" element={<MainPageSupplier />}/>
+=======
+        <Route path = "/Supplier" element={<Supplier />}/>
+>>>>>>> Stashed changes
         </Route>
       </Routes>
     </BrowserRouter>

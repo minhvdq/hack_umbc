@@ -50,7 +50,7 @@ export default function MainPage() {
             console.log("here")
             navigate("Autocomplete");
         } else {
-            navigate("LoginForm");
+            navigate("Supplier");
         }
     };
     return (

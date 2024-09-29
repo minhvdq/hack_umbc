@@ -42,7 +42,6 @@ userRouter.post('/', async (request, response) => {
 
     const savedUser = await newUser.save()
 
-    sendEmail(savedUser.email,"Welcome to Disaster Helper",{name: savedUser.email.split()[0]},"./template/welcome.handlebars")
     response.status(201).json(savedUser)
 })
 
