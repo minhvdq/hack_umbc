@@ -4,6 +4,7 @@ import userService from './services/userServices'
 import customStorage from './services/customStorage'
 import SignupForm from './SignupForm'
 import MainPageSupplier from './MainPageSupplier'
+import eventService from './services/eventService'
 
 function App() {
   const [curUser, setCurUser] = useState(null)
@@ -20,7 +21,11 @@ function App() {
     if(loggedUser){
       const lUser = JSON.parse(loggedUser)
       setCurUser(lUser)
-      setEvents(lUser.events)
+      console.log("asdjajld", lUser.events)
+      userService.getUserEvents(lUser.events).then(e => {
+        console.log("data ", e)
+        setEvents(e)
+      })
     }
   },[])
 
@@ -38,14 +43,16 @@ function App() {
       const logUser = await userService.login({email: email, password})
 
       console.log("user logged ", logUser)
-      setEvents(logUser.events)
+      const fetchEvents = await userService.getUserEvents(logUser.events)
+      console.log(fetchEvents)
+      setEvents(fetchEvents)
 
       //handle logging in
       setCurUser(logUser);
-      customStorage.setItem('localUser', JSON.stringify(logUser));
+      customStorage.setItem('localUser', JSON.stringify(logUser))
       console.log(logUser)
-      setUsername('');
-      setPassword('');
+      setUsername('')
+      setPassword('')
 
     }catch{
       setError('Wrong username or password')
@@ -81,7 +88,7 @@ function App() {
   const mainPage = () => {
     return(
       <div>
-        <MainPageSupplier events={events} handleLogout={handleLogout} />
+        <MainPageSupplier events={events} handleLogout={handleLogout} userId={curUser.id} />
       </div>
     )
   }

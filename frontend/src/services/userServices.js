@@ -22,4 +22,13 @@ const signup = async( {name, email, password, phoneNumber }) => {
     return res.data
 }
 
-export default {login, signup}
+const getUserEvents = async ( ids) => {
+    const data = {
+        events: ids
+    }
+    console.log('data', data)
+    const res = await axios.post(`${baseURL}/api/event/user`, data)
+    return res.data
+}
+
+export default {login, signup, getUserEvents}

@@ -28,7 +28,7 @@ function App() {
         <Route path ="/Autocomplete" element={<AutocompleteComponent />}/>
         <Route path = "/Supplier" element={<Supplier />}/>
         <Route path = "/MainPageSupplier" element={<MainPageSupplier />}/>
-        <Route path = "/FormDisabledDemo" element={<FormSupplier />}/>
+        {/* <Route path = "/FormDisabledDemo" element={<FormSupplier />}/> */}
         </Route>
       </Routes>
     </BrowserRouter>

@@ -9,16 +9,19 @@ import {
     Input,
 } from 'antd';
 
-export default function FormDisabledDemo() {
+import eventService from './services/eventService'
+
+export default function FormDisabledDemo({userId, togglePage}) {
     const [autocomplete, setAutocomplete] = useState(null);
     const [location, setLocation] = useState(null); // State to hold location
     const [name, setName] = useState('');
     const [address, setAddress] = useState('');
-    const [expiration, setExpirationDate] = useState('');
+    const [expiration, setExpirationDate] = useState(null);
     const [resources, setResources] = useState([]); // State to hold selected resources
     const loadAutoc = (autoC) => {
         setAutocomplete(autoC);
     }
+    // const userId = "66f8d78ac5422fcbe90b884f"
     const onLocationChanged = () => {
         if (autocomplete !== null) {
             const location = autocomplete.getPlace();
@@ -48,6 +51,19 @@ export default function FormDisabledDemo() {
         event.preventDefault()
         if (location !== null) {
             // Submit the data to the form
+            const submitData = {
+                name: name,
+                address: address,
+                expiration: expiration,
+                resources: resources,
+                id: userId
+            }
+
+            console.log('data is', submitData)
+
+            await eventService.post(submitData)
+            console.log('Done')
+            window.reload()
         }
     }
 
@@ -65,8 +81,8 @@ export default function FormDisabledDemo() {
                     maxWidth: 600,
                 }}
             >
-                <Form.Item label="Event Name" onChange={(event) => setName(event.target.value)}>
-                    <input
+                <Form.Item label="Event Name" onChange={(event) => {setName(event.target.value)}}>
+                    <input value={name}
                         type="text"
                         style={{ width: '100%' }}
                     />
@@ -90,8 +106,8 @@ export default function FormDisabledDemo() {
                     <Checkbox value="Transportation" onChange={handleCheckboxChange}>Transportation</Checkbox>
                     <Checkbox value="Shelter" onChange={handleCheckboxChange}>Shelter</Checkbox>
                 </Form.Item>
-                <Form.Item label="Expiration" onChange={(event) => setExpirationDate(event.target.value)}>
-                    <DatePicker />
+                <Form.Item label="Expiration">
+                    <DatePicker onChange={data => {const newDate = new Date(data.$d); setExpirationDate(newDate)}} />
                 </Form.Item>
                 <Form.Item
                     wrapperCol={{
@@ -99,8 +115,11 @@ export default function FormDisabledDemo() {
                         span: 16,
                     }}
                 >
-                    <Button type="primary" htmlType="submit" onChange={handleSubmit}>
+                    <Button type="primary" htmlType="submit" onClick={handleSubmit}>
                         Submit
+                    </Button>
+                    <Button type="marker" onClick={togglePage}>
+                        Cancel
                     </Button>
                 </Form.Item>
             </Form>

@@ -1,38 +1,40 @@
 import { Button, Typography } from "antd";
 import { useNavigate } from "react-router-dom";
 import customStorage from "./services/customStorage";
+import {useState} from 'react'
+import FormSupplier from './FormSupplier'
+import EventManage from "./EventManage";
 
-const MainPageSupplier = ({events, handleLogout}) => {
-    const { Title, Text } = Typography;
-    const navigate = useNavigate();
+const MainPageSupplier = ({events, handleLogout, userId}) => {
+    const [inadd, setInadd] = useState(false)
+    const navigate = useNavigate()
+
+    const togglePage = (e) => {
+        e.preventDefault()
+        setInadd(!inadd)
+      }
     
+    const mainContent = () => {
+        return (
+            <EventManage handleLogout={handleLogout} togglePage={togglePage} events={events}/>
+        );
+    }
 
-    return (
-        <div>
-            <Typography>
-                <Title>Welcome to the Event Manager</Title>
-            </Typography>
+    const AddEventContent = () => {
+        return(
+            <FormSupplier userId={userId} togglePage={togglePage}/>
+        )
+    }
 
-            <div className="add-event">
-                <Button type="primary" onClick={() => (navigate("/FormDisabledDemo"))}>Add New Event</Button>
+    return(
+        <>
+            <div>
+                {inadd == true ? AddEventContent() : mainContent()}
             </div>
+        </>
+    )
 
-            <ul>
-                {events.map((event) => (
-                    <li key={event.id}>
-                        {event.name}
-                        <Button onClick={navigate("/FormDisabledDemo")}>Edit</Button>
-                    </li>
-                ))}
-                {events.length === 0 ? 
-                    <Text>There is no event.</Text> : <></>}
-            </ul>
 
-            <div className="logout">
-                <Button type="primary" onClick={handleLogout}>logout</Button>
-            </div>
-        </div>
-    );
 }
 
 export default MainPageSupplier;
