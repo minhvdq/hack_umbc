@@ -1,27 +1,27 @@
 import { useState } from 'react';
-import { LoadScript, Autocomplete } from '@react-google-maps/api';
+import { useJsApiLoader, Autocomplete } from '@react-google-maps/api';
 import {
     Button,
     Checkbox,
     DatePicker,
-    Flex,
     Form,
-    Input,
 } from 'antd';
+import eventService from './services/eventService';
 
-import eventService from './services/eventService'
+const API_KEY = "AIzaSyCTy-RYvGUcdShnzlESTHfD19nbobBeBRI" // Replace with your actual API key
 
-export default function FormDisabledDemo({userId, togglePage}) {
+export default function FormDisabledDemo({ userId, togglePage }) {
     const [autocomplete, setAutocomplete] = useState(null);
     const [location, setLocation] = useState(null); // State to hold location
     const [name, setName] = useState('');
     const [address, setAddress] = useState('');
     const [expiration, setExpirationDate] = useState(null);
     const [resources, setResources] = useState([]); // State to hold selected resources
+
     const loadAutoc = (autoC) => {
         setAutocomplete(autoC);
-    }
-    // const userId = "66f8d78ac5422fcbe90b884f"
+    };
+
     const onLocationChanged = () => {
         if (autocomplete !== null) {
             const location = autocomplete.getPlace();
@@ -31,7 +31,13 @@ export default function FormDisabledDemo({userId, togglePage}) {
         } else {
             console.log("Cannot find a place");
         }
-    }
+    };
+
+    const { isLoaded } = useJsApiLoader({
+        id: 'google-map-script',
+        googleMapsApiKey: API_KEY,
+        libraries: ['places'],
+    });
 
     // Function to handle checkbox change
     const handleCheckboxChange = (event) => {
@@ -48,24 +54,24 @@ export default function FormDisabledDemo({userId, togglePage}) {
     };
 
     const handleSubmit = async (event) => {
-        event.preventDefault()
+        event.preventDefault();
         if (location !== null) {
             // Submit the data to the form
             const submitData = {
                 name: name,
-                address: address,
+                address: location,
                 expiration: expiration,
                 resources: resources,
-                id: userId
-            }
+                id: userId,
+            };
 
-            console.log('data is', submitData)
+            console.log('data is', submitData);
 
-            await eventService.post(submitData)
-            console.log('Done')
-            window.reload()
+            await eventService.post(submitData);
+            console.log('Done');
+            window.location.reload(); // Reloading the page
         }
-    }
+    };
 
     return (
         <>
@@ -81,14 +87,16 @@ export default function FormDisabledDemo({userId, togglePage}) {
                     maxWidth: 600,
                 }}
             >
-                <Form.Item label="Event Name" onChange={(event) => {setName(event.target.value)}}>
-                    <input value={name}
+                <Form.Item label="Event Name">
+                    <input
+                        value={name}
                         type="text"
                         style={{ width: '100%' }}
+                        onChange={(event) => { setName(event.target.value) }}
                     />
                 </Form.Item>
                 <Form.Item label="Address">
-                    <LoadScript googleMapsApiKey="AIzaSyCTy-RYvGUcdShnzlESTHfD19nbobBeBRI" libraries={['places']}>
+                    {isLoaded ? (
                         <Autocomplete onLoad={loadAutoc} onPlaceChanged={onLocationChanged}>
                             <input
                                 type="text"
@@ -97,7 +105,9 @@ export default function FormDisabledDemo({userId, togglePage}) {
                                 onChange={(event) => setAddress(event.target.value)}
                             />
                         </Autocomplete>
-                    </LoadScript>
+                    ) : (
+                        <p>Loading...</p> // Loading state if needed
+                    )}
                 </Form.Item>
                 <Form.Item label="Checkbox" name="disabled" valuePropName="checked">
                     <Checkbox value="Meal" onChange={handleCheckboxChange}>Meal</Checkbox>
@@ -107,7 +117,7 @@ export default function FormDisabledDemo({userId, togglePage}) {
                     <Checkbox value="Shelter" onChange={handleCheckboxChange}>Shelter</Checkbox>
                 </Form.Item>
                 <Form.Item label="Expiration">
-                    <DatePicker onChange={data => {const newDate = new Date(data.$d); setExpirationDate(newDate)}} />
+                    <DatePicker onChange={data => { const newDate = new Date(data.$d); setExpirationDate(newDate) }} />
                 </Form.Item>
                 <Form.Item
                     wrapperCol={{
