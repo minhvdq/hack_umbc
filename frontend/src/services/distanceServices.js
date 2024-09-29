@@ -12,4 +12,5 @@ const getDistance = async (origin, destination) => {
     return distance;  
 };
 
+
 export default {getDistance}

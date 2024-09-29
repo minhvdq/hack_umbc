@@ -19,6 +19,7 @@ export default function AutocompleteComponent() {
     const [location, setLocation] = useState(null);
     const [resource, setResources] = useState([]);
     const [availablePlace, setAvailablePlace] = useState([])
+    const [availableAddress, setAvailableAddress] = useState([])
 
 
     const { isLoaded } = useJsApiLoader({
@@ -30,13 +31,13 @@ export default function AutocompleteComponent() {
     const loadAutoc = (autoC) => {
         setAutocomplete(autoC);
     };
-
+  
     const onLocationChanged = () => {
         if (autocomplete) {
             const place = autocomplete.getPlace();
             const lat = place.geometry.location.lat();
             const lng = place.geometry.location.lng();
-            setLocation({ lat, lng });
+                setLocation({ lat, lng });
         } else {
             console.log("Cannot find a place");
         }
@@ -54,15 +55,19 @@ export default function AutocompleteComponent() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
+        setAvailablePlace([])
         const maxDistance = 100;
         if (location !== null) {
             const events = await eventServices.getAllAvailableEvent(resource,location);
+            console.log("Location is ", location)
             for(let obj of events)
             {
                 const infoDistance = await distanceServices.getDistance(obj.address, location);
-                const extractedDistance = parseFloat(infoDistance.replace(' km', ''));
-                if (extractedDistance <= maxDistance) {
+                const extractedDistanceString = infoDistance.replace(/[, km]/g, '').trim();
+                const extractedDistance = parseFloat(extractedDistanceString);
+                console.log("extracted distance ", extractedDistance);
+                if (extractedDistance <= maxDistance && !isNaN(extractedDistance)) {
+                    console.log("inside loop")
                     setAvailablePlace(prev => {
                         const checkDuplicate = (existingObj) => existingObj.address === obj.address;
                     
@@ -78,8 +83,10 @@ export default function AutocompleteComponent() {
             }
         }
     };
+    
     useEffect(() => {
         console.log("available places ", availablePlace);
+
     }, [availablePlace]);
     
 
@@ -137,6 +144,27 @@ export default function AutocompleteComponent() {
                                     }}
                                 />
                             </form>
+                            {availablePlace.length > 0 && (
+    <div style={{ marginTop: '20px', padding: '20px', border: '1px solid #ddd', borderRadius: '8px', backgroundColor: '#f9f9f9' }}>
+        <h4 style={{ marginBottom: '15px', fontSize: '1.5rem', fontWeight: 'bold' }}>Available Places:</h4>
+        <ul style={{ listStyleType: 'none', padding: '0' }}>
+            {availablePlace.map((place, index) => (
+                <li key={index} style={{ 
+                    padding: '10px', 
+                    margin: '5px 0', 
+                    border: '1px solid #ccc', 
+                    borderRadius: '4px', 
+                    backgroundColor: '#fff', 
+                    boxShadow: '0 2px 4px rgba(0,0,0,0.1)', 
+                    fontSize: '1.1rem'
+                }}>
+                    <strong>{place.name}</strong><br /> 
+                    <span>{place.address}</span><br /> 
+                </li>
+            ))}
+        </ul>
+    </div>
+)}
                         </div>
                     </div>
                 </div>
