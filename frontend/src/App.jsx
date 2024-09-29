@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { Autocomplete, GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import AutocompleteComponent from './AutocompleteComponent';
+import ReactDOM from "react-dom/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // Define the map container style
 // const containerStyle = {
@@ -17,6 +19,7 @@ import AutocompleteComponent from './AutocompleteComponent';
 function App() {
   const [autocomplete, setAutocomplete] = useState(null);
   return (
+<<<<<<< Updated upstream
     <LoadScript googleMapsApiKey="AIzaSyCTy-RYvGUcdShnzlESTHfD19nbobBeBRI">
       <GoogleMap
         mapContainerStyle={containerStyle}
@@ -27,6 +30,15 @@ function App() {
         <Marker position={center} />
       </GoogleMap>
     </LoadScript>
+=======
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<AutocompleteComponent/>}>
+
+        </Route>
+      </Routes>
+    </BrowserRouter>
+>>>>>>> Stashed changes
   );
 }
 
