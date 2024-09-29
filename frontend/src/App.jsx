@@ -30,12 +30,8 @@ function App() {
       <Routes>
         <Route path="/" element={<MainPage/>}>
         <Route path ="/Autocomplete" element={<AutocompleteComponent />}/>
-<<<<<<< Updated upstream
         <Route path = "/LoginForm" element={<LoginForm />}/>
         <Route path = "/MainPageSupplier" element={<MainPageSupplier />}/>
-=======
-        <Route path = "/Supplier" element={<Supplier />}/>
->>>>>>> Stashed changes
         </Route>
       </Routes>
     </BrowserRouter>
