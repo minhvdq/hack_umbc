@@ -5,7 +5,7 @@ import {useState} from 'react'
 import FormSupplier from './FormSupplier'
 import EventManage from "./EventManage";
 
-const MainPageSupplier = ({events, handleLogout, userId}) => {
+const MainPageSupplier = ({events, handleLogout, userId, handleAddEvent}) => {
     const [inadd, setInadd] = useState(false)
     const navigate = useNavigate()
 
@@ -22,7 +22,7 @@ const MainPageSupplier = ({events, handleLogout, userId}) => {
 
     const AddEventContent = () => {
         return(
-            <FormSupplier userId={userId} togglePage={togglePage}/>
+            <FormSupplier userId={userId} togglePage={togglePage} handleAddEvent={handleAddEvent}/>
         )
     }
 

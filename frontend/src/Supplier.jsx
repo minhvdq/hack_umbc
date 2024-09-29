@@ -18,8 +18,10 @@ function App() {
 
   useEffect(() => {
     const loggedUser = customStorage.getItem('localUser')
+    console.log('user', JSON.stringify(loggedUser))
     if(loggedUser){
-      const lUser = JSON.parse(loggedUser)
+      const lUser = (loggedUser)
+      console.log('luser', lUser)
       setCurUser(lUser)
       console.log("asdjajld", lUser.events)
       userService.getUserEvents(lUser.events).then(e => {
@@ -43,14 +45,14 @@ function App() {
       const logUser = await userService.login({email: email, password})
 
       console.log("user logged ", logUser)
+      setCurUser(logUser);
+      customStorage.setItem('localUser', logUser)
+      console.log('log ', logUser)
       const fetchEvents = await userService.getUserEvents(logUser.events)
-      console.log(fetchEvents)
+      console.log('fetch ',fetchEvents)
       setEvents(fetchEvents)
 
       //handle logging in
-      setCurUser(logUser);
-      customStorage.setItem('localUser', JSON.stringify(logUser))
-      console.log(logUser)
       setUsername('')
       setPassword('')
 
@@ -60,6 +62,14 @@ function App() {
         setError(null)
       }, 5000)
     }
+  }
+
+  const handleAddEvent = (ev) => {
+    const newEvents = [...curUser.events, ev]; // Create a new array with the existing events and the new event ID
+    const newCurUser = {...curUser, events: newEvents}; // Update the curUser with the new events array
+    console.log('new local user is ', newCurUser.data);
+    window.localStorage.clear()
+    customStorage.setItem('localUser', newCurUser); // Store the updated user object
   }
 
   const handleLogout = (event) => {
@@ -88,7 +98,7 @@ function App() {
   const mainPage = () => {
     return(
       <div>
-        <MainPageSupplier events={events} handleLogout={handleLogout} userId={curUser.id} />
+        <MainPageSupplier events={events} handleLogout={handleLogout} userId={curUser.id} handleAddEvent={handleAddEvent} />
       </div>
     )
   }

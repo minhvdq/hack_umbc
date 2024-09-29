@@ -10,7 +10,7 @@ import eventService from './services/eventService';
 
 const API_KEY = "AIzaSyCTy-RYvGUcdShnzlESTHfD19nbobBeBRI" // Replace with your actual API key
 
-export default function FormDisabledDemo({ userId, togglePage }) {
+export default function FormDisabledDemo({ userId, togglePage, handleAddEvent}) {
     const [autocomplete, setAutocomplete] = useState(null);
     const [location, setLocation] = useState(null); // State to hold location
     const [name, setName] = useState('');
@@ -67,7 +67,8 @@ export default function FormDisabledDemo({ userId, togglePage }) {
 
             console.log('data is', submitData);
 
-            await eventService.post(submitData);
+            const savedEvent = await eventService.post(submitData);
+            handleAddEvent(savedEvent.id)
             console.log('Done');
             window.location.reload(); // Reloading the page
         }
