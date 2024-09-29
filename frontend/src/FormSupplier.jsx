@@ -1,18 +1,24 @@
 import { useState } from 'react';
-import { GoogleMap, LoadScript, Autocomplete, Marker } from '@react-google-maps/api';
+import { LoadScript, Autocomplete } from '@react-google-maps/api';
+import {
+    Button,
+    Checkbox,
+    DatePicker,
+    Flex,
+    Form,
+    Input,
+} from 'antd';
 
-export default function FormSupplier() {
+const FormDisabledDemo = () => {
     const [autocomplete, setAutocomplete] = useState(null);
     const [location, setLocation] = useState(null); // State to hold location
     const [name, setName] = useState('');
     const [address, setAddress] = useState('');
     const [expiration, setExpirationDate] = useState('');
     const [resources, setResources] = useState([]); // State to hold selected resources
-
     const loadAutoc = (autoC) => {
         setAutocomplete(autoC);
     }
-
     const onLocationChanged = () => {
         if (autocomplete !== null) {
             const location = autocomplete.getPlace();
@@ -38,43 +44,67 @@ export default function FormSupplier() {
         }
     };
 
+    const handleSubmit = async (event) => {
+        event.preventDefault()
+        if (location !== null) {
+            // Submit the data to the form
+        }
+    }
+
     return (
-        <form>
-            <input type='text' placeholder='Organization name' onChange={(event) => setName(event.target.value)} />
-            <br />
-            <LoadScript googleMapsApiKey="AIzaSyCTy-RYvGUcdShnzlESTHfD19nbobBeBRI" libraries={['places']}>
-                <Autocomplete onLoad={loadAutoc} onPlaceChanged={onLocationChanged}>
+        <>
+            <Form
+                labelCol={{
+                    span: 4,
+                }}
+                wrapperCol={{
+                    span: 20,
+                }}
+                layout="horizontal"
+                style={{
+                    maxWidth: 600,
+                }}
+            >
+                <Form.Item label="Event Name" onChange={(event) => setName(event.target.value)}>
                     <input
                         type="text"
-                        placeholder='Enter your address'
-                        style={{ width: '100%', height: '40px', marginBottom: "13%" }}
-                        onChange={(event) => setAddress(event.target.value)}
+                        style={{ width: '100%' }}
                     />
-                </Autocomplete>
-            </LoadScript>
-            <br />
-            <input type='number' placeholder='Expiration date' onChange={(event) => setExpirationDate(event.target.value)} />
-            <br />
-            <div className="checkbox-list">
-                <label>
-                    <input type="checkbox" name="Meal" value="Meal" onChange={handleCheckboxChange} /> Meal
-                </label><br />
-                <label>
-                    <input type="checkbox" name="Drink" value="Drink" onChange={handleCheckboxChange} /> Drink
-                </label><br />
-                <label>
-                    <input type="checkbox" name="Medical Supplies" value="Medical Supplies" onChange={handleCheckboxChange} /> Medical Supplies
-                </label><br />
-                <label>
-                    <input type="checkbox" name="Transportation" value="Transportation" onChange={handleCheckboxChange} /> Transportation
-                </label><br />
-                <label>
-                    <input type="checkbox" name="Shelter" value="Shelter" onChange={handleCheckboxChange} /> Shelter
-                </label><br />
-            </div>
-
-            {/* Display selected resources for testing */}
-            <p>Selected Resources: {resources.join(', ')}</p>
-        </form>
+                </Form.Item>
+                <Form.Item label="Address">
+                    <LoadScript googleMapsApiKey="AIzaSyCTy-RYvGUcdShnzlESTHfD19nbobBeBRI" libraries={['places']}>
+                        <Autocomplete onLoad={loadAutoc} onPlaceChanged={onLocationChanged}>
+                            <input
+                                type="text"
+                                style={{ width: '100%' }}
+                                placeholder='Enter your address'
+                                onChange={(event) => setAddress(event.target.value)}
+                            />
+                        </Autocomplete>
+                    </LoadScript>
+                </Form.Item>
+                <Form.Item label="Checkbox" name="disabled" valuePropName="checked">
+                    <Checkbox value="Meal" onChange={handleCheckboxChange}>Meal</Checkbox>
+                    <Checkbox value="Drink" onChange={handleCheckboxChange}>Drink</Checkbox>
+                    <Checkbox value="Medical Supplies" onChange={handleCheckboxChange}>Medical Supplies</Checkbox>
+                    <Checkbox value="Transportation" onChange={handleCheckboxChange}>Transportation</Checkbox>
+                    <Checkbox value="Shelter" onChange={handleCheckboxChange}>Shelter</Checkbox>
+                </Form.Item>
+                <Form.Item label="Expiration" onChange={(event) => setExpirationDate(event.target.value)}>
+                    <DatePicker />
+                </Form.Item>
+                <Form.Item
+                    wrapperCol={{
+                        offset: 4,
+                        span: 16,
+                    }}
+                >
+                    <Button type="primary" htmlType="submit" onChange={handleSubmit}>
+                        Submit
+                    </Button>
+                </Form.Item>
+            </Form>
+        </>
     );
-}
+};
+export default () => <FormDisabledDemo />;
