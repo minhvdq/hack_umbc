@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { GoogleMap, Marker, useJsApiLoader, Autocomplete } from '@react-google-maps/api';
-
+import eventServices from './services/eventServices';
+import distanceServices from './services/distanceServices';
 const containerStyle = {
     width: '100%',
     height: '400px',
@@ -17,6 +18,8 @@ export default function AutocompleteComponent() {
     const [autocomplete, setAutocomplete] = useState(null);
     const [location, setLocation] = useState(null);
     const [resource, setResources] = useState([]);
+    const [availablePlace, setAvailablePlace] = useState([])
+
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
@@ -42,22 +45,43 @@ export default function AutocompleteComponent() {
     const handleCheckboxChange = (event) => {
         const value = event.target.value;
 
-        // Check if the checkbox is checked or unchecked
         if (event.target.checked) {
-            // Add the resource to the list
             setResources((prevResources) => [...prevResources, value]);
         } else {
-            // Remove the resource from the list
             setResources((prevResources) => prevResources.filter((resource) => resource !== value));
         }
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        const maxDistance = 100;
         if (location !== null) {
-            // Handle the form submission logic here
+            const events = await eventServices.getAllAvailableEvent(resource,location);
+            for(let obj of events)
+            {
+                const infoDistance = await distanceServices.getDistance(obj.address, location);
+                const extractedDistance = parseFloat(infoDistance.replace(' km', ''));
+                if (extractedDistance <= maxDistance) {
+                    setAvailablePlace(prev => {
+                        const checkDuplicate = (existingObj) => existingObj.address === obj.address;
+                    
+                        const available = prev.some(checkDuplicate);
+                        
+                        if (!available) {
+                            return [...prev, obj]; 
+                        }
+                        
+                        return prev; 
+                    });
+                }
+            }
         }
     };
+    useEffect(() => {
+        console.log("available places ", availablePlace);
+    }, [availablePlace]);
+    
 
     return (
         <div>
@@ -83,19 +107,19 @@ export default function AutocompleteComponent() {
 
                                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                                     <label>
-                                        <input type="checkbox" name="Meal" value="Meal" onChange={handleCheckboxChange} /> Meal
+                                        <input type="checkbox" name="meal" value="meal" onChange={handleCheckboxChange} /> Meal
                                     </label>
                                     <label>
-                                        <input type="checkbox" name="Drink" value="Drink" onChange={handleCheckboxChange} /> Drink
+                                        <input type="checkbox" name="drink" value="drink" onChange={handleCheckboxChange} /> Drink
                                     </label>
                                     <label>
-                                        <input type="checkbox" name="Medical Supplies" value="Medical Supplies" onChange={handleCheckboxChange} /> Medical Supplies
+                                        <input type="checkbox" name="medical supplies" value="medical supplies" onChange={handleCheckboxChange} /> Medical Supplies
                                     </label>
                                     <label>
-                                        <input type="checkbox" name="Transportation" value="Transportation" onChange={handleCheckboxChange} /> Transportation
+                                        <input type="checkbox" name="transportation" value="transportation" onChange={handleCheckboxChange} /> Transportation
                                     </label>
                                     <label>
-                                        <input type="checkbox" name="Shelter" value="Shelter" onChange={handleCheckboxChange} /> Shelter
+                                        <input type="checkbox" name="shelter" value="shelter" onChange={handleCheckboxChange} /> Shelter
                                     </label>
                                 </div>
 

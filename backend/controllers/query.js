@@ -16,6 +16,7 @@ const checkIntersect = (resources_1, resources_2) => {
 queryRouter.post('/', async (request, response) => {
     const body = request.body
     const resources = body.resources
+    console.log("resources in back end is  " + resources)
 
     const allEvents = await Event.find({})
 
@@ -25,6 +26,7 @@ queryRouter.post('/', async (request, response) => {
         let valid = checkIntersect(resources, event.resources)
         if( valid ) {validEvents.push(event)}
     }
+    console.log("valid events are ", validEvents)
 
     response.status(200).json(validEvents)
 })
