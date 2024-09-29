@@ -6,7 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MainPage from './MainPage';
 import FormSupplier from './FormSupplier';
 import MainPageSupplier from './MainPageSupplier';
-import LoginForm from './LoginForm';
+import Supplier from './Supplier'
 
 // Define the map container style
 // const containerStyle = {
@@ -26,7 +26,7 @@ function App() {
       <Routes>
         <Route path="/" element={<MainPage/>}>
         <Route path ="/Autocomplete" element={<AutocompleteComponent />}/>
-        <Route path = "/LoginForm" element={<LoginForm />}/>
+        <Route path = "/Supplier" element={<Supplier />}/>
         <Route path = "/MainPageSupplier" element={<MainPageSupplier />}/>
         </Route>
       </Routes>
