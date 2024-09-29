@@ -1,32 +1,18 @@
 const mongoose = require('mongoose')
 const uniqueValidator = require('mongoose-unique-validator')
 
-const eventSchema = new mongoose.Schema({
+const stateSchema = new mongoose.Schema({
     name:{
         type: String,
         required: true,
     },
     
-    address:{
-        type: String,
-        required: true
-    },
-
-    expiration:{
-        type: Date,
-        required: true
-    },
-
-    resources: [
+    events: [
         {
-            type: String,
+            type: mongoose.Types.ObjectId,
+            ref: 'Event'
         }
-    ],
-
-    user: {
-        type: mongoose.Types.ObjectId,
-        ref: 'User'
-    }
+    ]
 })
 eventSchema.plugin(uniqueValidator)
 

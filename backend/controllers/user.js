@@ -17,6 +17,11 @@ userRouter.get('/:id', async (request, response) => {
     response.status(200).json(user)
 })
 
+userRouter.delete('/', async (request, response) => {
+    await User.deleteMany({})
+    response.status(204).send("All users deleted")
+})
+
 userRouter.post('/', async (request, response) => {
     const body = request.body
     let user = await User.findOne({email: body.email})
