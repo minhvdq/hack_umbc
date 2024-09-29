@@ -18,7 +18,6 @@ export default function AutocompleteComponent()
 {
     const [autocomplete, setAutocomplete] = useState(null)
     const [location, setLocation] = useState(null);
-    const [isSupplier, setIsSupplier] = useState(false);
     const [resource, setResources] = useState([])
 
 
@@ -63,7 +62,7 @@ export default function AutocompleteComponent()
 
     return (
         <div>
-        {!isSupplier && <LoadScript googleMapsApiKey="AIzaSyCTy-RYvGUcdShnzlESTHfD19nbobBeBRI" libraries={['places']}>
+        <LoadScript googleMapsApiKey="AIzaSyCTy-RYvGUcdShnzlESTHfD19nbobBeBRI" libraries={['places']}>
             <Autocomplete onLoad={loadAutoc} onPlaceChanged={onLocationChanged}>
                 <input type="text" placeholder='Enter your address' style={{width:'100%',height:'40px',marginBottom:"13%"}}/>    
             </Autocomplete>
@@ -119,9 +118,7 @@ export default function AutocompleteComponent()
                         </div>
                     </div>
         
-        </LoadScript>}
-
-        {isSupplier && <FormSupplier/>}
+        </LoadScript>
         </div>
     )
     

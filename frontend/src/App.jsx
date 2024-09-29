@@ -3,6 +3,8 @@ import { Autocomplete, GoogleMap, LoadScript, Marker } from '@react-google-maps/
 import AutocompleteComponent from './AutocompleteComponent';
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import MainPage from './MainPage';
+import FormSupplier from './FormSupplier';
 
 // Define the map container style
 // const containerStyle = {
@@ -17,11 +19,12 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 // };
 
 function App() {
-  const [autocomplete, setAutocomplete] = useState(null);
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<AutocompleteComponent/>}>
+        <Route path="/" element={<MainPage/>}>
+        <Route path ="/Autocomplete" element={<AutocompleteComponent />}/>
+        <Route path = "/FormSupplier" element={<FormSupplier />}/>
         </Route>
       </Routes>
     </BrowserRouter>
